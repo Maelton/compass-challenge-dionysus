@@ -1,0 +1,17 @@
+services:
+  database:
+    image: postgres:latest
+    container_name: dionysus-database-container
+    restart: always
+    environment:
+      - POSTGRES_DB=dionysus
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - '5433:5432'
+    volumes:
+      - dionysus-database-volume:/var/lib/postgresql/data
+
+volumes:
+  dionysus-database-volume:
+    name: dionysus-database-volume
