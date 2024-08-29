@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 import java.util.List;
 
 @RestController
@@ -50,6 +49,15 @@ public class WineModelController {
                             )
                          }
             ),
+            @ApiResponse(responseCode = "400",
+                         description = "Missing or invalid fields on the request",
+                         content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionResponse.class)
+                            )
+                    }
+            ),
             @ApiResponse(responseCode = "409",
                          description = "Wine model already exists",
                          content = {
@@ -62,8 +70,8 @@ public class WineModelController {
         }
     )
     @PostMapping(produces = "application/json")
-    public ResponseEntity<WineModelResponseDTO> createWineModel(@Valid @RequestBody WineModelRequestDTO wineModeCreateDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createWineModel(wineModeCreateDTO));
+    public ResponseEntity<WineModelResponseDTO> createWineModel(@Valid @RequestBody WineModelRequestDTO wineModelCreateDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createWineModel(wineModelCreateDTO));
     }
 
     //READ ALL
@@ -125,8 +133,17 @@ public class WineModelController {
                             )
                          }
             ),
+            @ApiResponse(responseCode = "400",
+                         description = "Missing or invalid fields on the request",
+                         content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionResponse.class)
+                            )
+                    }
+            ),
             @ApiResponse(responseCode = "404",
-                         description = "Wine model not found",
+                         description = "Wine model ID not found",
                          content = {
                             @Content(
                                     mediaType = "application/json",
@@ -146,8 +163,8 @@ public class WineModelController {
         }
     )
     @PutMapping("/{id}")
-    public ResponseEntity<WineModelResponseDTO> updateWineModel(@PathVariable Long id, @Valid @RequestBody WineModelRequestDTO wineModeUpdateDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.updatedWineModel(id, wineModeUpdateDTO));
+    public ResponseEntity<WineModelResponseDTO> updateWineModel(@PathVariable Long id, @Valid @RequestBody WineModelRequestDTO wineModelUpdateDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.updatedWineModel(id, wineModelUpdateDTO));
     }
 
     //DELETE
