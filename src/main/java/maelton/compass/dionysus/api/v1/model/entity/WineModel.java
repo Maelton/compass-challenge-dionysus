@@ -28,10 +28,11 @@ import java.util.Set;
 @Entity
 @Table(
         name = "tab_wine_model",
-        uniqueConstraints = {@UniqueConstraint(
-                name = "tab_wine_model_un_model",
-                columnNames = {"brand", "name", "volume", "abv", "type"}
-            )
+        uniqueConstraints = {
+                @UniqueConstraint(
+                    name = "tab_wine_model_un_model",
+                    columnNames = {"brand", "name", "volume", "abv", "type"}
+                )
         }
 )
 public class WineModel {

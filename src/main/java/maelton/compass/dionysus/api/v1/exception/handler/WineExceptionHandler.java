@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class WineExceptionHandler {
+
+    //UUID
     @ExceptionHandler(WineUUIDNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleWineUUIDNotFoundException(WineUUIDNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ExceptionResponse(HttpStatus.NOT_FOUND, e.getMessage()));
