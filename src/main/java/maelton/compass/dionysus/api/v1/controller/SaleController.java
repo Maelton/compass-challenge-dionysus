@@ -11,9 +11,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import maelton.compass.dionysus.api.v1.exception.handler.ExceptionResponse;
-import maelton.compass.dionysus.api.v1.model.dto.user.UserRequestDTO;
-import maelton.compass.dionysus.api.v1.model.dto.user.UserResponseDTO;
-import maelton.compass.dionysus.api.v1.service.UserService;
+import maelton.compass.dionysus.api.v1.model.dto.sale.SaleRequestDTO;
+import maelton.compass.dionysus.api.v1.model.dto.sale.SaleResponseDTO;
+import maelton.compass.dionysus.api.v1.service.SaleService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,25 +30,25 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users")
-@Tag(name = "Users Management", description = "Endpoint for managing users")
+@RequestMapping("/sales")
+@Tag(name = "Sales Management", description = "Endpoint for managing sales")
 @SecurityRequirement(name = "jwtAuthentication")
-public class UserController {
-
-    private final UserService service;
-    public UserController(UserService service) {
+public class SaleController {
+    
+    private final SaleService service;
+    public SaleController(SaleService service) {
         this.service = service;
     }
     
     //CREATE
-    @Operation(summary = "Creates a new user", method = "POST")
+    @Operation(summary = "Creates a new sale", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
-                         description = "New user created successfully",
+                         description = "New sale created successfully",
                          content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = UserResponseDTO.class)
+                                    schema = @Schema(implementation = SaleResponseDTO.class)
                             )
                          }
             ),
@@ -61,55 +61,64 @@ public class UserController {
                             )
                          }
             ),
-            @ApiResponse(responseCode = "409",
-                    description = "Email address already exists",
-                    content = {
+            @ApiResponse(responseCode = "404",
+                         description = "Specified costumer or selling product not found",
+                         content = {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ExceptionResponse.class)
                             )
-                    }
+                         }
+            ),
+            @ApiResponse(responseCode = "409",
+                         description = "Product not available for sale",
+                         content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionResponse.class)
+                            )
+                         }
             )
         }
     )
     @PostMapping(produces = "application/json")
-    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userCreateDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(userCreateDTO));
+    public ResponseEntity<SaleResponseDTO> createSale(@Valid @RequestBody SaleRequestDTO saleCreateDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createSale(saleCreateDTO));
     }
     
     //READ ALL
-    @Operation(summary = "Retrieves all users", method = "GET")
+    @Operation(summary = "Retrieves all sales", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                         description = "All users returned",
+                         description = "All sales returned",
                          content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(type = "array", implementation = UserResponseDTO.class)
+                                    schema = @Schema(type = "array", implementation = SaleResponseDTO.class)
                             )
                          }
             )
         }
     )
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAllUsers());
+    public ResponseEntity<List<SaleResponseDTO>> getAllSales() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllSales());
     }
     
     //READ BY ID
-    @Operation(summary = "Retrieves a user by its ID", method = "GET")
+    @Operation(summary = "Retrieves a sale by its ID", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                         description = "User returned successfully",
+                         description = "Sale returned successfully",
                          content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = UserResponseDTO.class)
+                                    schema = @Schema(implementation = SaleResponseDTO.class)
                             )
                          }
             ),
             @ApiResponse(responseCode = "404",
-                         description = "User UUID not found",
+                         description = "Sale UUID not found",
                          content = {
                             @Content(
                                     mediaType = "application/json",
@@ -120,19 +129,19 @@ public class UserController {
         }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable("id") UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getUserById(id));
+    public ResponseEntity<SaleResponseDTO> getSaleById(@PathVariable("id") UUID id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getSaleById(id));
     }
     
     //UPDATE
-    @Operation(summary = "Updates a user by its ID", method = "PUT")
+    @Operation(summary = "Updates a sale by its ID", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                         description = "User updated successfully",
+                         description = "Sale updated successfully",
                          content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = UserResponseDTO.class)
+                                    schema = @Schema(implementation = SaleResponseDTO.class)
                             )
                          }
             ),
@@ -146,7 +155,7 @@ public class UserController {
                          }
             ),
             @ApiResponse(responseCode = "404",
-                         description = "User UUID not found",
+                         description = "Sale UUID, Costumer UUID or Product UUID not found",
                          content = {
                             @Content(
                                     mediaType = "application/json",
@@ -155,7 +164,7 @@ public class UserController {
                          }
             ),
             @ApiResponse(responseCode = "409",
-                         description = "Email address already exists",
+                         description = "Product is not available for sale",
                          content = {
                             @Content(
                                     mediaType = "application/json",
@@ -166,24 +175,24 @@ public class UserController {
         }
     )
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable UUID id, @Valid @RequestBody UserRequestDTO userUpdateDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id, userUpdateDTO));
+    public ResponseEntity<SaleResponseDTO> updateSale(@PathVariable UUID id, @Valid @RequestBody SaleRequestDTO saleUpdateDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateSale(id, saleUpdateDTO));
     }
     
     //DELETE
-    @Operation(summary = "Deletes a user by its ID", method = "DELETE")
+    @Operation(summary = "Deletes a sale by its ID", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
-                         description = "User deleted successfully",
+                         description = "Sale deleted successfully",
                          content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = UserResponseDTO.class)
+                                    schema = @Schema(implementation = SaleResponseDTO.class)
                             )
                          }
             ),
             @ApiResponse(responseCode = "404",
-                         description = "User UUID not found",
+                         description = "Sale UUID not found",
                          content = {
                             @Content(
                                     mediaType = "application/json",
@@ -194,8 +203,8 @@ public class UserController {
         }
     )
     @DeleteMapping
-    public ResponseEntity<Void> deleteUser(UUID id) {
-        service.deleteUser(id);
+    public ResponseEntity<Void> deleteSale(UUID id) {
+        service.deleteSale(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -1,6 +1,7 @@
 package maelton.compass.dionysus.api.v1.model.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

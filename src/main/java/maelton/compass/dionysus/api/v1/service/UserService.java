@@ -68,7 +68,7 @@ public class UserService {
 
     //UPDATE
     @Transactional
-    public UserResponseDTO updatedUser(UUID id, UserRequestDTO userUpdateDTO) {
+    public UserResponseDTO updateUser(UUID id, UserRequestDTO userUpdateDTO) {
         User user = repository.findById(id).orElseThrow(() -> new UserUUIDNotFoundException(id));
 
         user.setName(userUpdateDTO.name());

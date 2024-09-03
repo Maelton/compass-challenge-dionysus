@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class WineService {
+
     public final WineRepository repository;
     public final WineModelRepository wineModelRepository;
     public WineService(WineRepository wineRepository, WineModelRepository wineModelRepository) {

@@ -21,10 +21,10 @@ public class ExceptionResponse {
 
     public ExceptionResponse(MethodArgumentNotValidException e) {
         this.status = e.getStatusCode();
-        this.messages = getErrors(e);
+        this.messages = getErrorMessage(e);
     }
 
-    public String getErrors(MethodArgumentNotValidException e) {
+    public String getErrorMessage(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
         e.getBindingResult().getAllErrors().forEach(error -> {
                     String fieldName = ((FieldError) error).getField();

@@ -1,7 +1,9 @@
 package maelton.compass.dionysus.api.v1.exception.handler;
 
+import maelton.compass.dionysus.api.v1.exception.user.UserAuthenticationFailureException;
 import maelton.compass.dionysus.api.v1.exception.user.UserEmailNotFoundException;
 import maelton.compass.dionysus.api.v1.exception.user.UserUUIDNotFoundException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,6 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class UserExceptionHandler {
+
+    //AUTHENTICATION
+    @ExceptionHandler(UserAuthenticationFailureException.class)
+    public ResponseEntity<ExceptionResponse> handleUserAuthenticationFailure(UserAuthenticationFailureException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ExceptionResponse(HttpStatus.UNAUTHORIZED, e.getMessage()));
+    }
 
     //EMAIL NOT FOUND
     @ExceptionHandler(UserEmailNotFoundException.class)

@@ -1,5 +1,6 @@
 package maelton.compass.dionysus.api.v1.exception.handler;
 
+import maelton.compass.dionysus.api.v1.exception.wine.WineNotAvailableException;
 import maelton.compass.dionysus.api.v1.exception.wine.WineUUIDNotFoundException;
 
 import org.springframework.http.HttpStatus;
@@ -14,5 +15,11 @@ public class WineExceptionHandler {
     @ExceptionHandler(WineUUIDNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleWineUUIDNotFoundException(WineUUIDNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ExceptionResponse(HttpStatus.NOT_FOUND, e.getMessage()));
+    }
+
+    //NOT AVAILABLE
+    @ExceptionHandler(WineNotAvailableException.class)
+    public ResponseEntity<ExceptionResponse> handleWineNotAvailableException(WineNotAvailableException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionResponse(HttpStatus.CONFLICT, e.getMessage()));
     }
 }
