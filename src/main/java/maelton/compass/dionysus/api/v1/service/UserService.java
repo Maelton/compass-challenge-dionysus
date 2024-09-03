@@ -4,11 +4,14 @@ import jakarta.transaction.Transactional;
 
 import maelton.compass.dionysus.api.v1.exception.user.UserEmailNotFoundException;
 import maelton.compass.dionysus.api.v1.exception.user.UserUUIDNotFoundException;
+import maelton.compass.dionysus.api.v1.model.dto.user.PurchaseDTO;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserRequestDTO;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserResponseDTO;
+import maelton.compass.dionysus.api.v1.model.entity.Sale;
 import maelton.compass.dionysus.api.v1.model.entity.User;
 import maelton.compass.dionysus.api.v1.repository.UserRepository;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -95,6 +98,23 @@ public class UserService {
                 user.getBirthDate(),
                 user.getEmail(),
                 user.getRole()
+        );
+    }
+
+    public List<PurchaseDTO> getUserPurchases() {
+        String customerEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User costumer = repository.findByEmail(customerEmail).orElseThrow(() -> new UserEmailNotFoundException(customerEmail));
+        return costumer.getPurchases().stream().map(this::saleToUserPurchaseDTO).collect(Collectors.toList());
+    }
+
+    private PurchaseDTO saleToUserPurchaseDTO(Sale sale) {
+        return new PurchaseDTO(
+                sale.getId(),
+                sale.getSaleDateTime(),
+                sale.getProduct().getModel().getBrand(),
+                sale.getProduct().getModel().getName(),
+                sale.getProduct().getPrice(),
+                sale.getTotalSaleValue()
         );
     }
 }

@@ -34,9 +34,26 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(HttpMethod.POST, "/v1/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/v1/auth/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
 
-                    .anyRequest().authenticated()
+                .requestMatchers(HttpMethod.POST, "/sales").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/sales").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/sales").hasAuthority("ADMIN")
+
+                .requestMatchers(HttpMethod.POST, "/users").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/users").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/users").hasAuthority("ADMIN")
+
+                .requestMatchers(HttpMethod.POST, "/wines").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/wines").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/wines").hasAuthority("ADMIN")
+
+                .requestMatchers(HttpMethod.POST, "/models").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/models").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/models").hasAuthority("ADMIN")
+
+                .anyRequest().authenticated()
             ).addFilterBefore(tokenAuthenticationSecurityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

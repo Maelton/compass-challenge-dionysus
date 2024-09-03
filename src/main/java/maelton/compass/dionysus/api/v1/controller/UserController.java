@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import maelton.compass.dionysus.api.v1.exception.handler.ExceptionResponse;
+import maelton.compass.dionysus.api.v1.model.dto.user.PurchaseDTO;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserRequestDTO;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserResponseDTO;
 import maelton.compass.dionysus.api.v1.service.UserService;
@@ -197,5 +198,23 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(UUID id) {
         service.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Retrieves all purchases of a costumer", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                         description = "All costumer purchases returned",
+                         content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(type = "array", implementation = PurchaseDTO.class)
+                            )
+                         }
+            )
+        }
+    )
+    @GetMapping("/purchases")
+    public ResponseEntity<List<PurchaseDTO>> getUserPurchases() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getUserPurchases());
     }
 }

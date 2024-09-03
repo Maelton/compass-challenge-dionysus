@@ -47,8 +47,10 @@ public class SaleService {
         if(product.getStatus() != ProductStatus.AVAILABLE)
             throw new WineNotAvailableException(product);
 
-        Sale sale = new Sale(costumer, product);
-        return saleToResponseDTO(repository.save(sale));
+        Sale sale = repository.save(new Sale(costumer, product));
+            product.setStatus(ProductStatus.SOLD);
+            wineRepository.save(product);
+        return saleToResponseDTO(sale);
     }
 
     //READ ALL

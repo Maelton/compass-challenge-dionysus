@@ -1,5 +1,7 @@
 package maelton.compass.dionysus.api.v1.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,6 +41,7 @@ public class Wine {
     @Setter
     private ProductStatus status;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "product")
     Sale sale;
 

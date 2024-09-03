@@ -38,7 +38,7 @@ public class Sale {
     private Wine product;
 
     @Setter
-    private LocalDateTime localDateTime;
+    private LocalDateTime saleDateTime;
 
     @Setter
     private Double totalSaleValue;
@@ -49,7 +49,7 @@ public class Sale {
     public Sale(User costumer, Wine product) {
         this.costumer = costumer;
         this.product = product;
-        this.localDateTime = LocalDateTime.now();
+        this.saleDateTime = LocalDateTime.now();
         this.totalSaleValue = product.getPrice();
         this.status = SaleStatus.CLOSED;
     }
