@@ -41,6 +41,7 @@ public class DatabaseInitializer {
     public void initializeDatabase() {
         UserResponseDTO user1 = createDefaultUser("Admin", LocalDate.of(2000, 1, 1), "admin@dionysus.com", "admin", UserRole.ADMIN);
         UserResponseDTO user2 = createDefaultUser("User", LocalDate.of(2000, 1, 1), "user@dionysus.com", "user", UserRole.USER);
+        UserResponseDTO user3 = createDefaultUser("Maelton Lima", LocalDate.of(2002, 11, 8), "maelton.compass@gmail.com", "maeltonlima", UserRole.USER);
 
         WineModelResponseDTO wineModel1 = createDefaultWineModel("Bodega Catena Zapata", "Malbec", 750, 13.5, WineType.RED, 120.00);
         WineModelResponseDTO wineModel2 = createDefaultWineModel("Château Margaux", "Pavillon Rouge", 750, 14.0, WineType.RED, 2500.00);

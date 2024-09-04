@@ -5,6 +5,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
+import maelton.compass.dionysus.api.v1.exception.user.UserEmailNotFoundException;
+import maelton.compass.dionysus.api.v1.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +25,7 @@ public class JWTService {
     @Value("${api.security.jwt.secret}")
     private String secret;
 
-    public JSONWebTokenDTO generateToken(Authentication authentication) {
+    public JSONWebTokenDTO generateJSONWebToken(Authentication authentication) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
         List<String> authenticationUserRoles = authentication.getAuthorities()
@@ -51,7 +54,7 @@ public class JWTService {
         }
     }
 
-    public String validateToken(String token) {
+    public String validateJSONWebToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
         try {
@@ -65,7 +68,35 @@ public class JWTService {
         }
     }
 
+    //TODO: Alter date format if necessary
     private String getTokenExpiration(ZonedDateTime tokenExpirationDateTime) {
         return DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss z").format(tokenExpirationDateTime);
+    }
+
+    public String generatePasswordResetToken(String email) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+
+        ZonedDateTime tokenExpirationDateTime = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).plusMinutes(10);
+
+        return JWT.create()
+                .withIssuer("Dionysus Wine Boutique")
+                .withSubject(email)
+                .withExpiresAt(tokenExpirationDateTime.toInstant())
+                .sign(algorithm);
+    }
+
+    private boolean validatePasswordResetToken(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+
+        try {
+            JWT.require(algorithm)
+                .withIssuer("Dionysus Wine Boutique")
+                .build()
+                .verify(token);
+
+            return true;
+        } catch(JWTVerificationException e) {
+            return false;
+        }
     }
 }

@@ -31,7 +31,7 @@ public class TokenAuthenticationSecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException, UserEmailNotFoundException {
 
-        String authenticationUserEmail = jwtService.validateToken(this.getToken(request));
+        String authenticationUserEmail = jwtService.validateJSONWebToken(this.getToken(request));
         try {
             if (authenticationUserEmail != null) {
                 User authenticationUser = userRepository.findByEmail(authenticationUserEmail).orElseThrow(
