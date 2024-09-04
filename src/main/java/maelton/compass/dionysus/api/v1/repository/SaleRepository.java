@@ -16,5 +16,5 @@ public interface SaleRepository extends JpaRepository<Sale, UUID> {
     List<Sale> findAll();
     void deleteById(UUID id);
 
-    boolean existsById(UUID id);
+    boolean existsById(UUID uuid);
 }

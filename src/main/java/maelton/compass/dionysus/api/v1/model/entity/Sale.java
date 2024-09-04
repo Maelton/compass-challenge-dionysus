@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.CascadeType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,12 +31,12 @@ public class Sale {
     private UUID id;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "user_id")
     private User costumer;
 
     @Setter
-    @OneToOne
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "product_id")
     private Wine product;
 

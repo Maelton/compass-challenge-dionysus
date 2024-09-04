@@ -44,10 +44,6 @@ public class Wine {
     @Setter
     private ProductStatus status;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "product")
-    Sale sale;
-
     public Wine(WineModel model, Double price, ProductStatus status) {
         this.model = model;
         this.price = price;
