@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/wines")
+@RequestMapping("/v1/wines")
 @Tag(name = "Wine Registries Management", description = "Endpoint for managing wine registries")
 @SecurityRequirement(name = "jwtAuthentication")
 public class WineController {

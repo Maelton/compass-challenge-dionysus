@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @RestController
-@RequestMapping("/models")
+@RequestMapping("/v1/models")
 @Tag(name = "Wine Models Management", description = "Endpoint for managing wine models")
 @SecurityRequirement(name = "jwtAuthentication")
 public class WineModelController {

@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/sales")
+@RequestMapping("/v1/sales")
 @Tag(name = "Sales Management", description = "Endpoint for managing sales")
 @SecurityRequirement(name = "jwtAuthentication")
 public class SaleController {

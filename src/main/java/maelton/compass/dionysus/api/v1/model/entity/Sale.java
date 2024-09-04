@@ -8,6 +8,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +45,7 @@ public class Sale {
     @Setter
     private Double totalSaleValue;
 
+    @Enumerated(EnumType.STRING)
     @Setter
     private SaleStatus status;
 

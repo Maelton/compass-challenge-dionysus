@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/v1/users")
 @Tag(name = "Users Management", description = "Endpoint for managing users")
 @SecurityRequirement(name = "jwtAuthentication")
 public class UserController {

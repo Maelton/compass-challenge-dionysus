@@ -10,6 +10,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,6 +57,7 @@ public class User implements UserDetails {
     @Setter
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Setter
     private UserRole role;
 
