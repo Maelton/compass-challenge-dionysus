@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
-import jakarta.persistence.CascadeType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -63,7 +62,7 @@ public class User implements UserDetails {
     private UserRole role;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "costumer", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    @OneToMany(mappedBy = "costumer", fetch = FetchType.LAZY)
     Set<Sale> purchases = new HashSet<>();
 
     @Override

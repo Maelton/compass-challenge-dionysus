@@ -35,23 +35,23 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/v1/auth/**").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/v1/**").hasAnyAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/v1/**").hasAuthority("ADMIN")
 
-                .requestMatchers(HttpMethod.POST, "/v1/sales").hasAnyAuthority("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/v1/sales").hasAnyAuthority("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/v1/sales").hasAnyAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/v1/sales").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/v1/sales").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/v1/sales").hasAuthority("ADMIN")
 
-                .requestMatchers(HttpMethod.POST, "/v1/users").hasAnyAuthority("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/v1/users").hasAnyAuthority("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/v1/users").hasAnyAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/v1/users").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/v1/users").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/v1/users").hasAuthority("ADMIN")
 
-                .requestMatchers(HttpMethod.POST, "v1/wines").hasAnyAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "v1/wines").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/v1/wines").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/v1/wines").hasAnyAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/v1/wines").hasAuthority("ADMIN")
 
-                .requestMatchers(HttpMethod.POST, "/v1/models").hasAnyAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/v1/models").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/v1/models").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/v1/models").hasAnyAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/v1/models").hasAuthority("ADMIN")
 
                 .anyRequest().authenticated()
             ).addFilterBefore(tokenAuthenticationSecurityFilter, UsernamePasswordAuthenticationFilter.class);
