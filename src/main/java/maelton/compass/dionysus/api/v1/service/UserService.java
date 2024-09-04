@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 
 import maelton.compass.dionysus.api.v1.exception.user.UserEmailNotFoundException;
 import maelton.compass.dionysus.api.v1.exception.user.UserUUIDNotFoundException;
-import maelton.compass.dionysus.api.v1.model.dto.user.PurchaseDTO;
+import maelton.compass.dionysus.api.v1.model.dto.user.UserPurchaseDTO;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserRequestDTO;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserResponseDTO;
 import maelton.compass.dionysus.api.v1.model.entity.Sale;
@@ -101,14 +101,14 @@ public class UserService {
         );
     }
 
-    public List<PurchaseDTO> getUserPurchases() {
+    public List<UserPurchaseDTO> getUserPurchases() {
         String customerEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User costumer = repository.findByEmail(customerEmail).orElseThrow(() -> new UserEmailNotFoundException(customerEmail));
         return costumer.getPurchases().stream().map(this::saleToUserPurchaseDTO).collect(Collectors.toList());
     }
 
-    private PurchaseDTO saleToUserPurchaseDTO(Sale sale) {
-        return new PurchaseDTO(
+    private UserPurchaseDTO saleToUserPurchaseDTO(Sale sale) {
+        return new UserPurchaseDTO(
                 sale.getId(),
                 sale.getSaleDateTime(),
                 sale.getProduct().getModel().getBrand(),

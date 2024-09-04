@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 @Schema(description = "DTO for logging in users")
 public record UserLoginDTO(
         @NotBlank(message = "Email field is mandatory")
-        @Email(message = "Email field must be a valid email address")
+        @Email(message = "Email field must be a valid email emailAddress")
         String email,
 
         @NotBlank(message = "Password field is mandatory")

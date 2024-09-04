@@ -73,6 +73,7 @@ public class JWTService {
         return DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss z").format(tokenExpirationDateTime);
     }
 
+    //TODO: Refactor to use polymorphism
     public String generatePasswordResetToken(String email) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
@@ -85,6 +86,7 @@ public class JWTService {
                 .sign(algorithm);
     }
 
+    //TODO: Refactor to use polymorphism
     private boolean validatePasswordResetToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
@@ -97,6 +99,21 @@ public class JWTService {
             return true;
         } catch(JWTVerificationException e) {
             return false;
+        }
+    }
+
+    //TODO: Refactor to use polymorphism
+    public String getUserEmailFromPasswordResetToken(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+
+        try {
+            return JWT.require(algorithm)
+                    .withIssuer("Dionysus Wine Boutique")
+                    .build()
+                    .verify(token)
+                    .getSubject(); //user email
+        } catch(JWTVerificationException e) {
+            return null;
         }
     }
 }

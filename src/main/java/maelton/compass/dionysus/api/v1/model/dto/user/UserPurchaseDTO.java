@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Schema(description = "DTO used to represent a user purchase")
-public record PurchaseDTO(
+public record UserPurchaseDTO(
         UUID saleId,
         LocalDateTime saleDate,
         String productBrand,

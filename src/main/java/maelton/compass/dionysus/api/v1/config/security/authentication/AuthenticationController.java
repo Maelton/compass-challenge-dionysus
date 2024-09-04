@@ -6,6 +6,7 @@ import maelton.compass.dionysus.api.v1.config.security.authentication.jwt.JSONWe
 import maelton.compass.dionysus.api.v1.exception.handler.ExceptionResponse;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserEmailDTO;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserLoginDTO;
+import maelton.compass.dionysus.api.v1.model.dto.user.UserPasswordResetDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -61,14 +62,66 @@ public class AuthenticationController {
     }
 
     //FORGOT PASSWORD
+    @Operation(summary = "Requests a password reset url via email", method = "POST")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200",
+                         description = "Password reset email sent successfully",
+                         content = {
+                            @Content(
+                                    mediaType = "text/plain"
+                            )
+                         }
+            ),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid email address",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionResponse.class)
+                            )
+                    }
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "Email address not found",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionResponse.class)
+                            )
+                    }
+            )
+        }
+    )
     @PostMapping("/forgotPassword")
     public ResponseEntity<String> forgotPassword(@Valid @RequestBody UserEmailDTO email){
-        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.sendResetPasswordEmail(email.address()));
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.sendResetPasswordEmail(email.emailAddress()));
     }
 
-    //TODO: RESET PASSWORD
+    //RESET PASSWORD
+    @Operation(summary = "Resets a user password", method = "POST")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200",
+                    description = "Password updated successfully",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = JSONWebTokenDTO.class)
+                            )
+                    }
+            ),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid password reset token or passwords do not match",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionResponse.class)
+                            )
+                    }
+            )
+    }
+    )
     @PostMapping("/resetPassword")
-    public String resetPassword(@RequestParam String token){
-        return "";
+    public ResponseEntity<String> resetPassword(@RequestParam String token, @Valid @RequestBody UserPasswordResetDTO passwordResetDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.resetPassword(token, passwordResetDTO));
     }
 }

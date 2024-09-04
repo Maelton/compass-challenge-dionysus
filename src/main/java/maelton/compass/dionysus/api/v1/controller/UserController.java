@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import maelton.compass.dionysus.api.v1.exception.handler.ExceptionResponse;
-import maelton.compass.dionysus.api.v1.model.dto.user.PurchaseDTO;
+import maelton.compass.dionysus.api.v1.model.dto.user.UserPurchaseDTO;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserRequestDTO;
 import maelton.compass.dionysus.api.v1.model.dto.user.UserResponseDTO;
 import maelton.compass.dionysus.api.v1.service.UserService;
@@ -63,7 +63,7 @@ public class UserController {
                          }
             ),
             @ApiResponse(responseCode = "409",
-                    description = "Email address already exists",
+                    description = "Email emailAddress already exists",
                     content = {
                             @Content(
                                     mediaType = "application/json",
@@ -156,7 +156,7 @@ public class UserController {
                          }
             ),
             @ApiResponse(responseCode = "409",
-                         description = "Email address already exists",
+                         description = "Email emailAddress already exists",
                          content = {
                             @Content(
                                     mediaType = "application/json",
@@ -207,14 +207,14 @@ public class UserController {
                          content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(type = "array", implementation = PurchaseDTO.class)
+                                    schema = @Schema(type = "array", implementation = UserPurchaseDTO.class)
                             )
                          }
             )
         }
     )
     @GetMapping("/purchases")
-    public ResponseEntity<List<PurchaseDTO>> getUserPurchases() {
+    public ResponseEntity<List<UserPurchaseDTO>> getUserPurchases() {
         return ResponseEntity.status(HttpStatus.OK).body(service.getUserPurchases());
     }
 }

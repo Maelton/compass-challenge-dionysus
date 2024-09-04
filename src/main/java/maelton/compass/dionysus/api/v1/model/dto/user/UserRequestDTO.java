@@ -22,7 +22,7 @@ public record UserRequestDTO(
         LocalDate birthDate,
 
         @NotBlank(message = "Email field is mandatory")
-        @Email(message = "Email field must be a valid email address")
+        @Email(message = "Email field must be a valid email emailAddress")
         String email,
 
         @NotBlank(message = "Password field is mandatory and cannot be blank")

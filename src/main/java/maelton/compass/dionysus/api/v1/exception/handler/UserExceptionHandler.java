@@ -2,6 +2,7 @@ package maelton.compass.dionysus.api.v1.exception.handler;
 
 import maelton.compass.dionysus.api.v1.exception.user.UserAuthenticationFailureException;
 import maelton.compass.dionysus.api.v1.exception.user.UserEmailNotFoundException;
+import maelton.compass.dionysus.api.v1.exception.user.UserPasswordResetFailedException;
 import maelton.compass.dionysus.api.v1.exception.user.UserUUIDNotFoundException;
 
 import org.springframework.http.HttpStatus;
@@ -28,5 +29,11 @@ public class UserExceptionHandler {
     @ExceptionHandler(UserUUIDNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleUserUUIDNotFoundException(UserUUIDNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ExceptionResponse(HttpStatus.NOT_FOUND, e.getMessage()));
+    }
+
+    //PASSWORD RESET
+    @ExceptionHandler(UserPasswordResetFailedException.class)
+    public ResponseEntity<ExceptionResponse> handleUserPasswordResetFailedException(UserPasswordResetFailedException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponse(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 }
