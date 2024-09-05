@@ -73,22 +73,22 @@ public class AuthenticationController {
                          }
             ),
             @ApiResponse(responseCode = "400",
-                    description = "Invalid email address",
-                    content = {
+                         description = "Invalid email address",
+                         content = {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ExceptionResponse.class)
                             )
-                    }
+                         }
             ),
             @ApiResponse(responseCode = "404",
-                    description = "Email address not found",
-                    content = {
+                         description = "Email address not found",
+                         content = {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ExceptionResponse.class)
                             )
-                    }
+                         }
             )
         }
     )
@@ -101,24 +101,23 @@ public class AuthenticationController {
     @Operation(summary = "Resets a user password", method = "POST")
     @ApiResponses(value= {
             @ApiResponse(responseCode = "200",
-                    description = "Password updated successfully",
-                    content = {
+                         description = "Password updated successfully",
+                         content = {
                             @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = JSONWebTokenDTO.class)
+                                    mediaType = "text/plain"
                             )
-                    }
+                         }
             ),
             @ApiResponse(responseCode = "400",
-                    description = "Invalid password reset token or passwords do not match",
-                    content = {
+                         description = "Invalid password reset token or passwords do not match",
+                         content = {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ExceptionResponse.class)
                             )
-                    }
+                         }
             )
-    }
+        }
     )
     @PostMapping("/resetPassword")
     public ResponseEntity<String> resetPassword(@RequestParam String token, @Valid @RequestBody UserPasswordResetDTO passwordResetDTO) {
