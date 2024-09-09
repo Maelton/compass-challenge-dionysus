@@ -44,7 +44,6 @@ public class Wine {
     public Wine(WineModel model, Double price, ProductStatus status) {
         this.model = model;
         this.price = price;
-        //TODO: Use date convention
         this.insertionDateTime = LocalDateTime.now();
         this.status = status;
     }
