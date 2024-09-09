@@ -62,6 +62,12 @@ public class UserController {
                             )
                          }
             ),
+            @ApiResponse(responseCode = "401",
+                         description = "User has not logged in yet"
+            ),
+            @ApiResponse(responseCode = "403",
+                         description = "Non admin users cannot create new users"
+            ),
             @ApiResponse(responseCode = "409",
                     description = "Email emailAddress already exists",
                     content = {
